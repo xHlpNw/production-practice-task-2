@@ -28,7 +28,6 @@
 
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -45,52 +44,7 @@ public class Main {
                     firstTask();
                     break;
                 case "2":
-                    //  2. Коллекции (Управление моделями)
-                    //  • Создайте список с названиями моделей машин (например: Toyota Camry, BMW X5). Могут быть дубликаты!
-                    List<String> carModels = new ArrayList<>(List.of(
-                            "Toyota Camry", "BMW M5", "Audi A6", "Porsche Taycan", "Toyota Camry",
-                            "Porsche Cayenne", "Tesla Model Y", "Tesla Cybertruck", "BMW X6",
-                            "Audi RS6", "BMW M5", "Toyota Camry", "Volkswagen Touareg", "Tesla Model S",
-                            "BMW M5 Touring", "Porsche Taycan Turbo S"
-                    ));
-                    System.out.println("Первоначальный список:");
-                    System.out.println(String.join(", ", carModels));
-
-                    //  • Удалите дубликаты, затем отсортируйте модели в обратном алфавитном порядке, выведите на экран, затем сохраните в Set.
-                    // Удаление дубликатов через Set
-                    Set<String> set = new LinkedHashSet<>(carModels);
-                    List<String> notDuplicatedList = new ArrayList<>(set);
-                    System.out.println("\nСписок без дубликатов (через LinkedHashSet):");
-                    System.out.println(String.join(", ", notDuplicatedList));
-
-                    // Алгоритмическое удаление дубликатов
-                    for (int i = 0; i < carModels.size(); i++){
-                        for (int j = i + 1; j < carModels.size(); j++){
-                            if (carModels.get(i).equals(carModels.get(j))) {
-                                carModels.remove(j);
-                                j--;
-                            }
-                        }
-                    }
-                    System.out.println("\nСписок без дубликатов (Алгоритмически):");
-                    System.out.println(String.join(", ", carModels));
-
-                    // Сортировка в обратном алфавитном порядке
-                    carModels.sort(Collections.reverseOrder());
-                    System.out.println("\nОтсортированный список:");
-                    System.out.println(String.join(", ", carModels));
-
-                    // Сохранение в set
-                    set = new HashSet<>(carModels);
-                    System.out.println("\nМножество (Set):");
-                    System.out.println(String.join(", ", set));
-
-                    //  • Реализуйте проверку: если модель содержит слово "Tesla", замените её на "ELECTRO_CAR".
-                    for (int i = 0; i < carModels.size(); i++){
-                        if (carModels.get(i).contains("Tesla")) carModels.set(i, "ELECTRO_CAR");
-                    }
-                    System.out.println("\nСписок с заменой 'Tesla*' на 'ELECTRO_CAR':");
-                    System.out.println(String.join(", ", carModels));
+                    secondTask();
                     break;
                 case "3":
 
@@ -154,6 +108,57 @@ public class Main {
                     System.out.println("Ошибка! Неизвестная команда, повторите ввод.");
             }
         } while (!choice.equals("return"));
+    }
+
+    public static void secondTask(){
+        //  2. Коллекции (Управление моделями)
+        //  • Создайте список с названиями моделей машин (например: Toyota Camry, BMW X5). Могут быть дубликаты!
+        List<String> carModels = new ArrayList<>(List.of(
+                "Toyota Camry", "BMW M5", "Audi A6", "Porsche Taycan", "Toyota Camry",
+                "Porsche Cayenne", "Tesla Model Y", "Tesla Cybertruck", "BMW X6",
+                "Audi RS6", "BMW M5", "Toyota Camry", "Volkswagen Touareg", "Tesla Model S",
+                "BMW M5 Touring", "Porsche Taycan Turbo S"
+        ));
+        System.out.println("Первоначальный список:");
+        System.out.println(String.join(", ", carModels));
+
+        //  • Удалите дубликаты, затем отсортируйте модели в обратном алфавитном порядке, выведите на экран, затем сохраните в Set.
+        // Удаление дубликатов через Set
+        Set<String> set = new LinkedHashSet<>(carModels);
+        List<String> notDuplicatedList = new ArrayList<>(set);
+        System.out.println("\nСписок без дубликатов (через LinkedHashSet):");
+        System.out.println(String.join(", ", notDuplicatedList));
+
+        // Алгоритмическое удаление дубликатов
+        for (int i = 0; i < carModels.size(); i++){
+            for (int j = i + 1; j < carModels.size(); j++){
+                if (carModels.get(i).equals(carModels.get(j))) {
+                    carModels.remove(j);
+                    j--;
+                }
+            }
+        }
+        System.out.println("\nСписок без дубликатов (Алгоритмически):");
+        System.out.println(String.join(", ", carModels));
+
+        // Сортировка в обратном алфавитном порядке
+        carModels.sort(Collections.reverseOrder());
+        System.out.println("\nОтсортированный список:");
+        System.out.println(String.join(", ", carModels));
+
+        // Сохранение в set
+        set = new HashSet<>(carModels);
+        System.out.println("\nМножество (Set):");
+        System.out.println(String.join(", ", set));
+
+        //  • Реализуйте проверку: если модель содержит слово "Tesla", замените её на "ELECTRO_CAR".
+        for (int i = 0; i < carModels.size(); i++){
+            if (carModels.get(i).contains("Tesla")) {
+                carModels.set(i, "ELECTRO_CAR");
+            }
+        }
+        System.out.println("\nСписок с заменой 'Tesla*' на 'ELECTRO_CAR':");
+        System.out.println(String.join(", ", carModels));
     }
 
     public static void printArray(int[] array, int inline){
