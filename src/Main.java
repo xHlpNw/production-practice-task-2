@@ -1,9 +1,4 @@
 /*
-3. equals/hashCode (Сравнение автомобилей)
-    • Создайте класс Car с полями: VIN, модель, производитель, год выпуска, пробег, цена
-    • Переопределите equals и hashCode, чтобы две машины считались одинаковыми только при совпадении VIN.
-    • Добавьте в HashSet несколько машин (включая дубликаты по VIN) и убедитесь, что дубликаты не добавляются.
-    • Реализуйте Comparable<Car> для сортировки по году выпуска (от новых к старым).*
 4. Stream API (Анализ автопарка)
     Дан список машин (List<Car>):
         • Отфильтруйте только машины с пробегом меньше 50_000 км (добавьте поле mileage).
@@ -27,7 +22,9 @@
 */
 
 
+import java.time.Year;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,7 +44,28 @@ public class Main {
                     secondTask();
                     break;
                 case "3":
+                    //  3. equals/hashCode (Сравнение автомобилей)
+                    //  • Создайте класс Car с полями: VIN, модель, производитель, год выпуска, пробег, цена
+                    //  • Переопределите equals и hashCode, чтобы две машины считались одинаковыми только при совпадении VIN.
+                    //  • Добавьте в HashSet несколько машин (включая дубликаты по VIN) и убедитесь, что дубликаты не добавляются.
+                    //  • Реализуйте Comparable<Car> для сортировки по году выпуска (от новых к старым).*
+                    Set<Car> carSet = new HashSet<>();
+                    carSet.add(new Car("WDB1240821F323866", "911", "Porsche",
+                                    Year.of(2019), 20000, 250000));
+                    carSet.add(new Car("DJS9381777J546969", "Granta", "Lada"));
+                    carSet.add(new Car("DJS9381777J546969", "on-DO", "Datsun"));
+                    carSet.add(new Car("IYI8768762X215498", "SkyLine GTR", "Nissan"));
+                    carSet.add(new Car("UWU8765432K980954", "Impreza", "Subaru"));
+                    carSet.add(new Car("VOO0000004K000000", "MX-5", "Mazda"));
 
+                    System.out.println("\nНабор автомобилей:");
+                    System.out.println(carSet.stream().map(Car::toString)
+                            .collect(Collectors.joining(";\n")));
+
+                    System.out.println("\nОтсортированные по году (от новых к старым):");
+                    Car[] carArray = carSet.toArray(new Car[0]);
+                    Arrays.sort(carArray);
+                    for (Car car : carArray) System.out.println(car);
                     break;
                 case "4":
 
