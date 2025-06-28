@@ -13,6 +13,7 @@ public class Car implements Comparable<Car> {
     private final Year yearOfRelease;
     private int mileage;
     private int price;
+    private CarBodyType bodyType;
 
     public Car(String VIN, String model, String manufacturer) {
         this.VIN = VIN;
@@ -22,15 +23,20 @@ public class Car implements Comparable<Car> {
         yearOfRelease = Year.of(rand.nextInt(1980, 2026));
         mileage = rand.nextInt(100, 200001);
         price = rand.nextInt(1000, 300000);
+        bodyType = CarBodyType.values()[rand.nextInt(CarBodyType.values().length)];
     }
 
-    public Car(String VIN, String model, String manufacturer, Year yearOfRelease, int mileage, int price) {
+    public Car(
+            String VIN, String model, String manufacturer, Year yearOfRelease,
+            int mileage, int price, CarBodyType bodyType
+    ) {
         this.VIN = VIN;
         this.model = model;
         this.manufacturer = manufacturer;
         this.yearOfRelease = yearOfRelease;
         this.mileage = mileage;
         this.price = price;
+        this.bodyType = bodyType;
     }
 
     public String getVIN() {
@@ -65,12 +71,16 @@ public class Car implements Comparable<Car> {
         this.price = price;
     }
 
+    public CarBodyType getBodyType() {
+        return bodyType;
+    }
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append(manufacturer).append(" ").append(model).append(" ").append(yearOfRelease)
-                .append(", VIN: ").append(VIN).append(", mileage: ").append(mileage)
-                .append("km, price: $").append(price);
+                .append(", Кузов: ").append(bodyType).append(", VIN: ").append(VIN)
+                .append(", mileage: ").append(mileage).append("km, price: $").append(price);
         return sb.toString();
     }
 

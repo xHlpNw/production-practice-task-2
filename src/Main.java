@@ -1,35 +1,20 @@
-/*
-5. Практическое задание: Автоцентр (Реализация системы) *
-    Реализуйте класс CarDealership, содержащий список автомобилей. У каждой машины:
-        ● VIN, модель, производитель, год выпуска, пробег, цена, тип (enum: SEDAN, SUV, ELECTRIC и т.д.).
-    Методы:
-        1. Добавить машину в автоцентр (проверять дубликаты по VIN).
-        2. Найти все машины указанного производителя (использовать Stream).
-        3. Вывести среднюю цену машин определённого типа (SUV, ELECTRIC и др.).
-        4. Вернуть список машин, отсортированных по году выпуска (от новых к старым).
-        5. Дополнительно: реализовать статистику:
-            o Количество машин каждого типа.
-            o Самая старая и самая новая машина в наличии.
-
-    Создайте меню с возможностью вызова каждого метода (например, через Scanner).
-*/
-
-
 import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String choice;
         do {
-            System.out.print("\n1. Первое задание (массив)\n2. Второе задание (коллекции)\n" +
-                    "3. Третье задание (equals & hashcode)\n4. Четвёртое задание (StreamAPI)\n" +
-                    "5. Пятое задание (Автоцентр)\n" +
-                    "Выберите пукнт списка или введите 'quit' для возврата к меню: ");
+            System.out.print("""
+                    
+                    1. Первое задание (массив)
+                    2. Второе задание (коллекции)
+                    3. Третье задание (equals & hashcode)
+                    4. Четвёртое задание (StreamAPI)
+                    5. Пятое задание (Автоцентр)
+                    Выберите пукнт списка или введите 'quit' для возврата к меню:\s""");
             choice = in.nextLine();
             switch (choice) {
                 case "1":
@@ -44,14 +29,10 @@ public class Main {
                     //  • Переопределите equals и hashCode, чтобы две машины считались одинаковыми только при совпадении VIN.
                     //  • Добавьте в HashSet несколько машин (включая дубликаты по VIN) и убедитесь, что дубликаты не добавляются.
                     //  • Реализуйте Comparable<Car> для сортировки по году выпуска (от новых к старым).*
-                    Set<Car> carSet = new HashSet<>();
-                    carSet.add(new Car("WDB1240821F323866", "911", "Porsche",
-                                    Year.of(2019), 20000, 250000));
-                    carSet.add(new Car("DJS9381777J546969", "Granta", "Lada"));
+                    Set<Car> carSet = new HashSet<>(initializeCarList());
+
+                    // попытка добавить автомобиль с уже существующем VIN-номером
                     carSet.add(new Car("DJS9381777J546969", "on-DO", "Datsun"));
-                    carSet.add(new Car("IYI8768762X215498", "SkyLine GT-R", "Nissan"));
-                    carSet.add(new Car("UWU8765432K980954", "Impreza", "Subaru"));
-                    carSet.add(new Car("VOO0000004K000000", "MX-5", "Mazda"));
 
                     System.out.println("\nНабор автомобилей:");
                     System.out.println(carSet.stream().map(Car::toString)
@@ -65,24 +46,7 @@ public class Main {
                 case "4":
                     //  4. Stream API (Анализ автопарка)
                     //  Дан список машин (List<Car>):
-                    List<Car> cars = new ArrayList<>(List.of(
-                            new Car("WDB1240821F323866", "911", "Porsche",
-                                    Year.of(2019), 20000, 250000),
-                            new Car("DJS9381777J546969", "Granta", "Lada",
-                                    Year.of(2019), 182000, 3000),
-                            new Car("DJS9381777J546969", "on-DO", "Datsun"),
-                            new Car("IYI8768762X215498", "SkyLine GT-R", "Nissan",
-                                    Year.of(2000), 12000, 400000),
-                            new Car("UWU8765432K980954", "R8", "Audi"),
-                            new Car("VOO0000004K000000", "MX-5", "Mazda",
-                                    Year.of(2019), 26500, 32000),
-                            new Car("TRU8887777F432441", "TT", "Audi",
-                                    Year.of(2009), 198900, 18300),
-                            new Car("XOR9818756S776677", "Levante", "Maserati",
-                                    Year.of(2020), 28000, 74000),
-                            new Car("LOX4343434Z434343", "2101", "Lada",
-                                    Year.of(1981), 4390, 30000)
-                    ));
+                    List<Car> cars = initializeCarList();
 
                     System.out.println("\nСписок автомобилей:");
                     String result = cars.stream().map(Car::toString)
@@ -132,7 +96,7 @@ public class Main {
                     }
                     break;
                 case "5":
-
+                    fifthTask();
                     break;
                 case "quit":
                     break;
@@ -153,9 +117,13 @@ public class Main {
         Scanner in = new Scanner(System.in);
         String choice;
         do {
-            System.out.print("\n1. Вывести массив\n2. Сгенерировать массив\n" +
-                    "3. Вывести машины, выпущенные после 2015 года\n4. Вывести средний возраст авто\n" +
-                    "Выберите пукнт списка или введите 'return' для возврата к меню: ");
+            System.out.print("""
+                    
+                    1. Вывести массив
+                    2. Сгенерировать массив
+                    3. Вывести машины, выпущенные после 2015 года
+                    4. Вывести средний возраст авто
+                    Выберите пункт списка или введите 'return' для возврата к меню:\s""");
             choice = in.nextLine();
 
             switch (choice){
@@ -173,16 +141,17 @@ public class Main {
                     for (int year : carYears) {
                         if (year > 2015) {
                             count++;
-                            System.out.print(year + "\t");
+                            System.out.printf("%s\t", year);
                             if (count % 20 == 0) System.out.println();
                         }
                     }
+                    if (count % 20 != 0) System.out.println();
                     break;
                 case "4":
                     int sum = 0;
                     for (int year : carYears) sum += year;
                     double average = (double) sum / carYears.length;
-                    System.out.println("Среднее значение: " + average);
+                    System.out.printf("Среднее значение: %.2f\n", average);
                     break;
                 case "return":
                     break;
@@ -243,9 +212,125 @@ public class Main {
         System.out.println(String.join(", ", carModels));
     }
 
+    public static void fifthTask() {
+        /*
+            Реализуйте класс CarDealership, содержащий список автомобилей.
+            У каждой машины:
+            ● VIN, модель, производитель, год выпуска, пробег, цена, тип (enum: SEDAN, SUV, ELECTRIC и т.д.).
+            Методы:
+            1. Добавить машину в автоцентр (проверять дубликаты по VIN).
+            2. Найти все машины указанного производителя (использовать Stream).
+            3. Вывести среднюю цену машин определённого типа (SUV, ELECTRIC и др.).
+            4. Вернуть список машин, отсортированных по году выпуска (от новых к старым).
+            5. Дополнительно: реализовать статистику:
+                o Количество машин каждого типа.
+                o Самая старая и самая новая машина в наличии.
+
+            Создайте меню с возможностью вызова каждого метода (например, через Scanner).
+        */
+        CarDealership dealership = new CarDealership();
+        Scanner in = new Scanner(System.in);
+        String choice;
+        do {
+            System.out.print("""
+                    
+                    1. Вывести список автомобилей
+                    2. Инициализировать список
+                    3. Добавить машину в автоцентр
+                    4. Вывести все машины указанного производителя
+                    5. Вывести среднюю цену определённого типа кузова
+                    6. Вывести список машин (от новых к старым)
+                    7. Вывести статистику
+                    Выберите пункт списка или введите 'return' для возврата к меню:\s""");
+            choice = in.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println(dealership);
+                    break;
+                case "2":
+                    dealership = new CarDealership(initializeCarList());
+                    System.out.println("Список автомобилей проинициализирован");
+                    break;
+                case "3":
+                    // 1. Добавить машину в автоцентр (проверять дубликаты по VIN).
+                    System.out.print("Введите VIN: ");
+                    String VIN = in.nextLine();
+                    if (VIN.isEmpty()) {
+                        System.out.println("Ошибка! VIN-номер пуст, повторите попытку.");
+                        break;
+                    }
+                    System.out.print("Введите производителя: ");
+                    String manufacturer = in.nextLine();
+                    if (manufacturer.isEmpty()) {
+                        System.out.println("Ошибка! Название производителя не может быть пустым, повторите попытку.");
+                        break;
+                    }
+                    System.out.print("Введите модель: ");
+                    String model = in.nextLine();
+                    if (model.isEmpty()) {
+                        System.out.println("Ошибка! Название модели не может быть пустым, повторите попытку.");
+                        break;
+                    }
+                    if (dealership.addCar(new Car(VIN, model, manufacturer))) {
+                        System.out.println("Автомобиль добавлен в ассортимент дилера");
+                    } else System.out.println("У дилера уже зарегистрирован автомобиль с таким VIN-номером");
+                    break;
+                case "4":
+                    // 2. Найти все машины указанного производителя (использовать Stream).
+                    System.out.print("Введите название производителя: ");
+                    String carManufacturer = in.nextLine();
+                    List<Car> manufacturerCars = dealership.getCarsByManufacturer(carManufacturer);
+                    if (manufacturerCars.isEmpty()) {
+                        System.out.println("У дилера нет автомобилей с данным производителем");
+                    } else System.out.println(manufacturerCars.stream().map(Car::toString)
+                                .collect(Collectors.joining(";\n")));
+                    break;
+                case "5":
+                    // 3. Вывести среднюю цену машин определённого типа (SUV, ELECTRIC и др.).
+                    System.out.println("Варианты кузовов: SEDAN, HATCHBACK, ESTATE, COUPE, SUV, PICKUP, CONVERTIBLE");
+                    System.out.print("Введите название кузова из предложенного списка: ");
+                    CarBodyType carType;
+                    try {
+                        carType = CarBodyType.valueOf(in.nextLine().toUpperCase());
+                    } catch (Exception e) {
+                        System.out.println("Ошибка! Такового кузова нет в списке, повторите попытку.");
+                        break;
+                    }
+                    OptionalDouble avgPrice = dealership.getAveragePriceForBodyType(carType);
+                    avgPrice.ifPresentOrElse(
+                            avg -> System.out.printf("Средняя цена машин с кузовом %s: $%.2f\n",
+                                    carType, avg),
+                            () -> System.out.printf("Отсутствуют автомобили с типом кузова %s\n", carType)
+                    );
+                    break;
+                case "6":
+                    // 4. Вернуть список машин, отсортированных по году выпуска (от новых к старым).
+                    List<Car> list = dealership.getSortedCarList();
+                    if (list.isEmpty()) {
+                        System.out.println("Список автомобилей пуст");
+                        break;
+                    }
+                    System.out.println(list.stream().map(Car::toString)
+                            .collect(Collectors.joining(";\n")));
+                    break;
+                case "7":
+                    // 5. Дополнительно: реализовать статистику:
+                    //   o Количество машин каждого типа.
+                    //   o Самая старая и самая новая машина в наличии.
+                    dealership.printStatistics();
+                    break;
+                case "return":
+                    break;
+                default:
+                    System.out.println("Ошибка! Неизвестная команда, повторите ввод.");
+            }
+        } while (!choice.equals("return"));
+    }
+
     public static void printArray(int[] array, int inline){
         for (int i = 0; i < array.length; i++){
-            System.out.print(array[i] + "\t");
+            System.out.printf("%d\t", array[i]);
             if ((i + 1) % inline == 0) System.out.println();
         }
         if (array.length % inline != 0) System.out.println();
@@ -258,5 +343,25 @@ public class Main {
             carYears[i] = rand.nextInt(min, max + 1);
         }
         return carYears;
+    }
+
+    public static List<Car> initializeCarList(){
+        return new ArrayList<>(List.of(
+                new Car("WDB1240821F323866", "911", "Porsche",
+                        Year.of(2019), 20000, 250000, CarBodyType.CONVERTIBLE),
+                new Car("DJS9381777J546969", "Granta", "Lada",
+                        Year.of(2019), 182000, 3000, CarBodyType.HATCHBACK),
+                new Car("IYI8768762X215498", "SkyLine GT-R", "Nissan",
+                        Year.of(2000), 12000, 400000, CarBodyType.COUPE),
+                new Car("UWU8765432K980954", "R8", "Audi"),
+                new Car("VOO0000004K000000", "MX-5", "Mazda",
+                        Year.of(2019), 26500, 32000, CarBodyType.COUPE),
+                new Car("TRU8887777F432441", "TT", "Audi",
+                        Year.of(2009), 198900, 18300, CarBodyType.COUPE),
+                new Car("XOR9818756S776677", "Levante", "Maserati",
+                        Year.of(2020), 28000, 74000, CarBodyType.SEDAN),
+                new Car("LOX4343434Z434343", "2101", "Lada",
+                        Year.of(1981), 4390, 30000, CarBodyType.SEDAN)
+        ));
     }
 }
