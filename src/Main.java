@@ -1,11 +1,4 @@
 /*
-4. Stream API (Анализ автопарка)
-    Дан список машин (List<Car>):
-        • Отфильтруйте только машины с пробегом меньше 50_000 км (добавьте поле mileage).
-        • Отсортируйте по цене (по убыванию).
-        • Выведите топ-3 самые дорогие машины.
-        • Посчитайте средний пробег всех машин.
-        • Сгруппируйте машины по производителю в Map<String, List<Car>>.
 5. Практическое задание: Автоцентр (Реализация системы) *
     Реализуйте класс CarDealership, содержащий список автомобилей. У каждой машины:
         ● VIN, модель, производитель, год выпуска, пробег, цена, тип (enum: SEDAN, SUV, ELECTRIC и т.д.).
@@ -25,6 +18,8 @@
 import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class Main {
     public static void main(String[] args) {
@@ -54,7 +49,7 @@ public class Main {
                                     Year.of(2019), 20000, 250000));
                     carSet.add(new Car("DJS9381777J546969", "Granta", "Lada"));
                     carSet.add(new Car("DJS9381777J546969", "on-DO", "Datsun"));
-                    carSet.add(new Car("IYI8768762X215498", "SkyLine GTR", "Nissan"));
+                    carSet.add(new Car("IYI8768762X215498", "SkyLine GT-R", "Nissan"));
                     carSet.add(new Car("UWU8765432K980954", "Impreza", "Subaru"));
                     carSet.add(new Car("VOO0000004K000000", "MX-5", "Mazda"));
 
@@ -68,6 +63,75 @@ public class Main {
                     for (Car car : carArray) System.out.println(car);
                     break;
                 case "4":
+                    //  4. Stream API (Анализ автопарка)
+                    //  Дан список машин (List<Car>):
+                    List<Car> cars = new ArrayList<>(List.of(
+                            new Car("WDB1240821F323866", "911", "Porsche",
+                                    Year.of(2019), 20000, 250000),
+                            new Car("DJS9381777J546969", "Granta", "Lada",
+                                    Year.of(2019), 182000, 3000),
+                            new Car("DJS9381777J546969", "on-DO", "Datsun"),
+                            new Car("IYI8768762X215498", "SkyLine GT-R", "Nissan",
+                                    Year.of(2000), 12000, 400000),
+                            new Car("UWU8765432K980954", "R8", "Audi"),
+                            new Car("VOO0000004K000000", "MX-5", "Mazda",
+                                    Year.of(2019), 26500, 32000),
+                            new Car("TRU8887777F432441", "TT", "Audi",
+                                    Year.of(2009), 198900, 18300),
+                            new Car("XOR9818756S776677", "Levante", "Maserati",
+                                    Year.of(2020), 28000, 74000),
+                            new Car("LOX4343434Z434343", "2101", "Lada",
+                                    Year.of(1981), 4390, 30000)
+                    ));
+
+                    System.out.println("\nСписок автомобилей:");
+                    String result = cars.stream().map(Car::toString)
+                            .collect(Collectors.joining(";\n"));
+                    System.out.println(result);
+
+                    //  • Отфильтруйте только машины с пробегом меньше 50_000 км (добавьте поле mileage).
+                    System.out.println("\nАвтомобили с пробегом менее 50000км:");
+                    result = cars.stream().filter(car -> car.getMileage() < 50000)
+                            .map(Car::toString).collect(Collectors.joining(";\n"));
+                    System.out.println(result);
+
+                    //  • Отсортируйте по цене (по убыванию).
+                    System.out.println("\nСписок автомобилей (по убыванию цены):");
+                    result = cars.stream().sorted(Comparator.comparingInt(Car::getPrice).reversed())
+                            .map(Car::toString).collect(Collectors.joining(";\n"));
+                    System.out.println(result);
+
+                    //  • Выведите топ-3 самые дорогие машины.
+                    System.out.println("\nТоп-3 машин по стоимости:");
+                    result = cars.stream().sorted(Comparator.comparingInt(Car::getPrice).reversed())
+                            .limit(3).map(Car::toString).collect(Collectors.joining(";\n"));
+                    System.out.println(result);
+
+                    //  • Посчитайте средний пробег всех машин.
+                    OptionalDouble averageMileage = cars.stream().mapToInt(Car::getMileage).average();
+                    averageMileage.ifPresentOrElse(
+                            avg -> System.out.printf("\nСредний пробег автомобилей: %.2fкм.\n", avg),
+                            () -> System.out.println("\nСписок пуст, средний пробег не найден")
+                    );
+
+                    //  • Сгруппируйте машины по производителю в Map<String, List<Car>>.
+                    Map<String, List<Car>> carsByManufacturers = cars.stream()
+                            .collect(Collectors.toMap(
+                                    Car::getManufacturer,
+                                    car -> new ArrayList<>(List.of(car)),
+                                    (existing, replacement) -> {
+                                        existing.add(replacement.getFirst());
+                                        return existing;
+                                    }
+                            ));
+                    for (String manufacturer : carsByManufacturers.keySet()) {
+                        System.out.printf("\nАвтомобили %s:\n", manufacturer);
+                        result = carsByManufacturers.get(manufacturer).stream()
+                                .map(Car::toString).collect(Collectors.joining(";\n"));
+                        System.out.println(result);
+                    }
+                    break;
+                case "5":
 
                     break;
                 case "quit":
